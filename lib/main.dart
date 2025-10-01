@@ -74,6 +74,10 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _salve() {
+    "salve";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,7 +101,11 @@ class _MyHomePageState extends State<MyHomePage> {
               itemCount: _listItems.length,
               itemBuilder: (BuildContext context, int index) {
                 final item = _listItems[index];
-                return ListItem(data: item, onDelete: () => _deleteItem(item));
+                return ListItem(
+                  data: item,
+                  onDelete: () => _deleteItem(item),
+                  onTap: () => _salve,
+                );
               },
             ),
           ),

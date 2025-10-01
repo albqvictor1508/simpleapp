@@ -5,8 +5,11 @@ class User {
   final String name;
   final String email;
   final String avatar;
+  final int firstNote;
+  final int secondNote;
+  double get average => firstNote + secondNote / 2;
 
-  User(this.name, this.avatar, this.email, this.id);
+  User(this.name, this.avatar, this.email, this.id, this.firstNote, this.secondNote);
 }
 
 class ListItemData {
@@ -28,19 +31,24 @@ class ListItem extends StatelessWidget {
   final VoidCallback onDelete;
   final VoidCallback onTap;
 
-  const ListItem({super.key, required this.data, required this.onDelete, required this.onTap});
+  const ListItem({
+    super.key,
+    required this.data,
+    required this.onDelete,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext ctx) {
     //InkWell torna clicável, dando feedback visual
     return InkWell(
-      onTap: onTap, 
+      onTap: onTap,
       child: Container(
         decoration: const BoxDecoration(
           border: Border(bottom: BorderSide(width: 1.0, color: Colors.grey)),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0), 
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,7 +58,9 @@ class ListItem extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(width: 2.0, color: Colors.grey),
-                      borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(16.0),
+                      ),
                     ),
                     child: Image.asset(data.avatar, width: 32.0, height: 32.0),
                   ),
@@ -58,13 +68,13 @@ class ListItem extends StatelessWidget {
                   Text(data.name, style: const TextStyle(fontSize: 18.0)),
                 ],
               ),
-              
+
               GestureDetector(
                 onTap: (onDelete),
                 child: IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.red), 
-                  onPressed: null, 
-                  ),
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  onPressed: null,
+                ),
               ),
             ],
           ),
