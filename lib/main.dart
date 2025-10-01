@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/user.dart';
+import 'package:simpleapp/user.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,63 +28,87 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late final List<ListItemData> _listItems = [
-    ListItemData("Minhas Tarefas", "assets/images/avatar.png"),
-    ListItemData("Minhas Tarefas", "assets/images/avatar.png"),
-    ListItemData("Minhas Tarefas", "assets/images/avatar.png"),
-    ListItemData("Minhas Tarefas", "assets/images/avatar.png"),
-    ListItemData("Minhas Tarefas", "assets/images/avatar.png"),
-    ListItemData("Minhas Tarefas", "assets/images/avatar.png"),
+  List<ListItemData> _listItems = [
+    ListItemData(
+      name: "Minhas Tarefas",
+      avatar: "assets/images/avatar.png",
+      id: 1,
+    ),
+    ListItemData(
+      name: "Configurações",
+      id: 2,
+      avatar: "assets/images/avatar.png",
+    ),
+    ListItemData(name: "Perfil", id: 3, avatar: "assets/images/avatar.png"),
+    ListItemData(
+      name: "Notificações",
+      id: 4,
+      avatar: "assets/images/avatar.png",
+    ),
+    ListItemData(name: "Ajuda", id: 5, avatar: "assets/images/avatar.png"),
+    ListItemData(
+      name: "Sobre o App",
+      id: 6,
+      avatar: "assets/images/avatar.png",
+    ),
+    ListItemData(name: "Sair", id: 7, avatar: "assets/images/avatar.png"),
+    ListItemData(name: "Licenças", id: 8, avatar: "assets/images/avatar.png"),
   ];
 
-  void _changeSalve() {
-    "salve";
+  void _deleteItem(ListItemData itemToDelete) {
+    setState(() {
+      _listItems.removeWhere((item) => item.id == itemToDelete.id);
+    });
+  }
+
+  void _addItem() {
+    int newId = _listItems.isEmpty ? 1 : _listItems.last.id + 1;
+    setState(() {
+      _listItems.add(
+        ListItemData(
+          name: "Novo Item $newId",
+          avatar: "assets/images/new.png",
+          id: newId,
+        ),
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          spacing: 8.0,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(top: 64.0),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(width: 1.0, color: Colors.grey),
-                ),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("text", style: TextStyle(fontSize: 24.0)),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      child: TextButton(
-                        onPressed: _changeSalve,
-                        child: Icon(Icons.access_alarm),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+      body: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 64.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
             ),
-          ],
-        ),
+            alignment: Alignment.centerLeft,
+            child: const Text(
+              "Lista de Opções",
+              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+            ),
+          ),
+
+          Expanded(
+            child: ListView.builder(
+              itemCount: _listItems.length,
+              itemBuilder: (BuildContext context, int index) {
+                final item = _listItems[index];
+                return ListItem(data: item, onDelete: () => _deleteItem(item));
+              },
+            ),
+          ),
+        ],
       ),
+
       floatingActionButton: FloatingActionButton(
-        onPressed: _changeSalve,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+        onPressed: _addItem,
+        tooltip: 'Adicionar Item',
+        child: const Icon(Icons.add),
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
